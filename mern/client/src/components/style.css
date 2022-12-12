@@ -1,0 +1,31 @@
+.btn {
+    padding: 4px;
+}
+
+.filterEmployees {
+    text-align: center;
+}
+
+.filterSelect {
+    margin-left: 5px;
+}
+
+.sortTitle {
+    font-size: medium;
+    display: block;
+    text-align: center;
+}
+
+.navbar {
+    background-color: rgb(188, 230, 216);
+    margin-bottom: 50px;
+}
+
+.navbar-nav {
+    margin-left: 5%;
+}
+
+.pageHeader {
+
+    text-align: center;
+}
