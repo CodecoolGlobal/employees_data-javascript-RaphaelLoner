@@ -25,7 +25,6 @@ export default function Navbar() {
                         <NavLink className="nav-link" to="/equipment/create"> Create Equipment</NavLink>
                     </li>
                 </ul>
-
             </nav>
         </div>
     );

@@ -58,7 +58,7 @@ recordRoutes.route("/record/:id").get(function (req, res) {
 });
 
 // create a new record.
-recordRoutes.route("/record/add").post(function (req, response) {
+recordRoutes.route("/record/add").post(logger, function (req, response) {
     let db_connect = dbo.getDb();
     let myobj = {
         firstname: req.body.firstname,
@@ -110,6 +110,11 @@ recordRoutes.route("/:id").delete((req, response) => {
     });
 });
 
+function logger(req, res, next) {
+    const date = new Date();
+    console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString());
+    next();
 
+}
 
 module.exports = recordRoutes;

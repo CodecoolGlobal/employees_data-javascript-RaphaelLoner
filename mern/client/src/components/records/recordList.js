@@ -1,6 +1,7 @@
+import DropDown from '../dropdown';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './style.css'
+import '../style.css'
 const Record = (props) => (
 
     <tr>
@@ -21,33 +22,11 @@ export default function RecordList() {
 
     const [records, setRecords] = useState([]);
     const [sortBy, setSortBy] = useState('id');
-
     const [position, setPosition] = useState('Default');
     const [level, setLevel] = useState('Default');
 
-    const [positionGroup, setPositionGroup] = useState();
-
     useEffect(() => {
         async function getRecords() {
-
-            const response = await fetch(`http://localhost:5000/record/`);
-            if (!response.ok) {
-                const message = `An error occurred: ${response.statusText}`;
-                window.alert(message);
-                return;
-
-            }
-            const records = await response.json();
-            const uniqePositions = await records.map((employee) => { return employee.position }).filter(getUniqe);
-            setPositionGroup(uniqePositions);
-
-        }
-        getRecords();
-    }, [])
-
-    useEffect(() => {
-        async function getRecords() {
-
             const response = await fetch(`http://localhost:5000/record?sort=${sortBy}&level=${level}&position=${position}`);
             if (!response.ok) {
                 const message = `An error occurred: ${response.statusText}`;
@@ -76,15 +55,6 @@ export default function RecordList() {
         });
     }
 
-    function getOptions(list) {
-        const options = list.map((position, index) => { return <option key={index} value={position} >{position}</option> })
-        return options;
-    }
-
-    function getUniqe(value, index, self) {
-        return self.indexOf(value) === index;
-    }
-
     return (
         <div>
             <h3 className='pageHeader'>Record List</h3><span className="sortTitle">{`(sorted by :  ${sortBy})`}</span>
@@ -99,25 +69,10 @@ export default function RecordList() {
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>{recordList()}</tbody>
+                <tbody>{records !== undefined && recordList()}</tbody>
             </table>
-
-            <div className='filterEmployees'>
-                <label htmlFor="level">Filter by Level: </label>
-                <select className='filterSelect' name="level" id="level" value={level} onChange={(e) => setLevel(e.target.value)}>
-                    <option value="Default">Default</option>
-                    <option value="Intern">Intern</option>
-                    <option value="Junior">Junior</option>
-                    <option value="Senior">Senior</option>
-                </select>
-            </div>
-            <div className='filterEmployees'>
-                <label htmlFor="level">Filter by Position: </label>
-                <select className='filterSelect' name="position" id="position" value={position} onChange={(e) => { setPosition(e.target.value) }}>
-                    <option value="Default">Default</option>
-                    {positionGroup !== undefined && getOptions(positionGroup)}
-                </select>
-            </div>
+            <DropDown value={level} setValue={setLevel} field="level" />
+            <DropDown value={position} setValue={setPosition} field="position" />
         </div >
     );
 }
