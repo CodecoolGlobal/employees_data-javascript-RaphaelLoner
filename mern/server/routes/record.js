@@ -6,9 +6,9 @@ const dbo = require("../db/conn");
 const ObjectId = require("mongodb").ObjectId;
 
 
+
 //  get a list of all the records.
 recordRoutes.route("/record").get(checkParams, async function (req, res) {
-    console.log("all Records")
     let db_connect = dbo.getDb("employees");
     db_connect.collection("records").find({})
         .toArray(function (err, result) {
@@ -66,6 +66,7 @@ recordRoutes.route("/record/add").post(function (req, response) {
         lastname: req.body.lastname,
         position: req.body.position,
         level: req.body.level,
+
     };
 
     db_connect.collection("records").insertOne(myobj, function (err, res) {
@@ -108,5 +109,7 @@ recordRoutes.route("/:id").delete((req, response) => {
         response.json(obj);
     });
 });
+
+
 
 module.exports = recordRoutes;

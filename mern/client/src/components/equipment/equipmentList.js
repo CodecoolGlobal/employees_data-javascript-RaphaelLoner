@@ -12,13 +12,11 @@ const Equipment = (props) => (
             <button className="btn btn-link" onClick={() => { props.deleteRecord(props.equipment._id); }}>Delete</button>
         </td>
     </tr>
-
 )
 
 export default function EquipmentList() {
 
     const [equipment, setEquipment] = useState([]);
-
 
     useEffect(() => {
         async function getRecords() {

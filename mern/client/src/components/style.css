@@ -22,10 +22,25 @@
 }
 
 .navbar-nav {
-    margin-left: 5%;
+    font-weight: bolder;
+    font-size: large;
 }
+
 
 .pageHeader {
 
     text-align: center;
+}
+
+.selectPosition {
+    margin-left: 50px;
+    margin-top: 30px;
+}
+
+
+
+.buttonPosition {
+    margin-left: 120px;
+    margin-top: 40px;
+
 }

@@ -115,7 +115,7 @@ export default function Edit() {
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="form-group selectPosition">
                     <div className="form-check form-check-inline">
                         <input
                             className="form-check-input"
@@ -153,9 +153,8 @@ export default function Edit() {
                         <label htmlFor="positionSenior" className="form-check-label">Senior</label>
                     </div>
                 </div>
-                <br />
 
-                <div className="form-group">
+                <div className="form-group buttonPosition">
                     <input
                         type="submit"
                         value="Update Record"

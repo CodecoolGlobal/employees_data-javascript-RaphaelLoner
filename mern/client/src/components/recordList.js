@@ -40,7 +40,7 @@ export default function RecordList() {
             const records = await response.json();
             const uniqePositions = await records.map((employee) => { return employee.position }).filter(getUniqe);
             setPositionGroup(uniqePositions);
-            console.log(uniqePositions)
+
         }
         getRecords();
     }, [])

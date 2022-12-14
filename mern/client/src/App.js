@@ -12,6 +12,7 @@ import EquipmentList from "./components/equipment/equipmentList";
 import EquipmentCreate from "./components/equipment/euipmentCreate";
 import EquipmentEdit from "./components/equipment/equipmentEdit";
 
+
 const App = () => {
 
     return (
@@ -24,6 +25,7 @@ const App = () => {
                 <Route path="/equipment" element={<EquipmentList />} />
                 <Route path="/equipment/create" element={<EquipmentCreate />} />
                 <Route path="/equipment/edit/:id" element={<EquipmentEdit />} />
+
             </Routes>
         </div>
     );

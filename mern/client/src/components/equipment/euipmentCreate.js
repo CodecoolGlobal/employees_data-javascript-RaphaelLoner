@@ -73,13 +73,13 @@ export default function EquipmentCreate() {
                         className="form-control"
                         id="amount"
                         value={form.amount}
-                        min="1"
+                        min="1" buttonPosition
                         onChange={(e) => updateForm({ amount: e.target.value })}
                         required
                     />
                 </div>
 
-                <div className="form-group">
+                <div className="form-group buttonPosition">
                     <input
                         type="submit"
                         value="Create Equipment"

@@ -70,7 +70,7 @@ export default function EquipmentEdit() {
             <h3 className="pageHeader">Update Record</h3>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
-                    <label htmlFor="name">name</label>
+                    <label htmlFor="name">Name</label>
                     <input
                         type="text"
                         className="form-control"
@@ -94,7 +94,7 @@ export default function EquipmentEdit() {
                 <div className="form-group">
                     <label htmlFor="amount">Amount</label>
                     <input
-                        type="text"
+                        type="number"
                         className="form-control"
                         id="amount"
                         value={form.amount}
@@ -106,10 +106,10 @@ export default function EquipmentEdit() {
 
                 <br />
 
-                <div className="form-group">
+                <div className="form-group buttonPosition">
                     <input
                         type="submit"
-                        value="Update Record"
+                        value="Update Equipment"
                         className="btn btn-primary"
                     />
                 </div>

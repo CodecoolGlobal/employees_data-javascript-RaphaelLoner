@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import './style.css'
 export default function Create() {
+
+
     const [form, setForm] = useState({
         firstname: "",
         middlename: "",
         lastname: "",
         position: "",
         level: "",
+
     });
     const navigate = useNavigate();
 
@@ -40,6 +43,7 @@ export default function Create() {
         setForm({ firstname: "", middlename: "", lastname: "", position: "", level: "" });
         navigate("/");
     }
+
     // This following section will display the form that takes the input from the user.
     return (
         <div>
@@ -89,7 +93,7 @@ export default function Create() {
                         required
                     />
                 </div>
-                <div className="form-group" required>
+                <div className="form-group selectPosition" required>
                     <div className="form-check form-check-inline">
                         <input
                             className="form-check-input"
@@ -98,7 +102,7 @@ export default function Create() {
                             id="positionIntern"
                             value="Intern"
                             checked={form.level === "Intern"}
-                            onChange={(e) => updateForm({ level: e.target.value })}
+                            onChange={(e) => { updateForm({ level: e.target.value }) }}
                         />
                         <label htmlFor="positionIntern" className="form-check-label">Intern</label>
                     </div>
@@ -110,7 +114,7 @@ export default function Create() {
                             id="positionJunior"
                             value="Junior"
                             checked={form.level === "Junior"}
-                            onChange={(e) => updateForm({ level: e.target.value })}
+                            onChange={(e) => { updateForm({ level: e.target.value }) }}
                         />
                         <label htmlFor="positionJunior" className="form-check-label">Junior</label>
                     </div>
@@ -122,12 +126,13 @@ export default function Create() {
                             id="positionSenior"
                             value="Senior"
                             checked={form.level === "Senior"}
-                            onChange={(e) => updateForm({ level: e.target.value })}
+                            onChange={(e) => { updateForm({ level: e.target.value }) }}
                         />
                         <label htmlFor="positionSenior" className="form-check-label">Senior</label>
                     </div>
+
                 </div>
-                <div className="form-group">
+                <div className="form-group buttonPosition">
                     <input
                         type="submit"
                         value="Create person"

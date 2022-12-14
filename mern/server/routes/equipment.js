@@ -1,10 +1,7 @@
 const express = require("express");
-
 const equipmentRouter = express.Router();
-
 // connect to the database
 const dbo = require("../db/conn");
-
 // convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 
@@ -53,7 +50,6 @@ equipmentRouter.route("/equipment/update/:id").post(function (req, response) {
             name: req.body.name,
             type: req.body.type,
             amount: req.body.amount,
-
         },
     };
     db_connect
