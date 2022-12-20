@@ -1,46 +1,44 @@
-import DropDown from '../dropdown';
+import DropDownFilter from '../dropdownfilter';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../style.css'
-const Record = (props) => (
+
+const Record = ({ record, deleteRecord }) => (
 
     <tr>
-        <td>{props.record.firstname}</td>
-        <td>{props.record.middlename}</td>
-        <td>{props.record.lastname}</td>
-        <td>{props.record.position}</td>
-        <td>{props.record.level}</td>
+        <td>{record.firstname}</td>
+        <td>{record.middlename}</td>
+        <td>{record.lastname}</td>
+        <td>{record.position}</td>
+        <td>{record.level}</td>
         <td>
-            <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
-            <button className="btn btn-link" onClick={() => { props.deleteRecord(props.record._id); }}>Delete</button>
+            <Link className="btn btn-link" to={`/employees/edit/${record._id}`}>Edit</Link> |
+            <button className="btn btn-link" onClick={() => { deleteRecord(record._id); }}>Delete</button>
         </td>
     </tr>
 
 )
 
-export default function RecordList() {
+export default function EmployeesList() {
 
     const [records, setRecords] = useState([]);
-    const [sortBy, setSortBy] = useState('id');
+    const [sortBy, setSortBy] = useState('experience');
     const [position, setPosition] = useState('Default');
     const [level, setLevel] = useState('Default');
 
+
     useEffect(() => {
-        async function getRecords() {
-            const response = await fetch(`http://localhost:5000/record?sort=${sortBy}&level=${level}&position=${position}`);
-            if (!response.ok) {
-                const message = `An error occurred: ${response.statusText}`;
-                window.alert(message);
-                return;
-            }
-            const records = await response.json();
-            setRecords(records);
-        }
-        getRecords();
+
+        fetch(`http://localhost:5000/employees?sort=${sortBy}&level=${level}&position=${position}`)
+            .then((res) => res.json())
+            .then(data => setRecords(data));
+
+
     }, [records.length, sortBy, level, position]);
 
+
     async function deleteRecord(id) {
-        await fetch(`http://localhost:5000/${id}`, {
+        await fetch(`http://localhost:5000/employees/delete/${id}`, {
             method: "DELETE"
         });
         const newRecords = records.filter((el) => el._id !== id);
@@ -57,7 +55,7 @@ export default function RecordList() {
 
     return (
         <div>
-            <h3 className='pageHeader'>Record List</h3><span className="sortTitle">{`(sorted by :  ${sortBy})`}</span>
+            <h3 className='pageheader'>Employees List</h3><span className="sorttitle">{`(sorted by :  ${sortBy})`}</span>
             <table className="table table-striped" style={{ marginTop: 20 }}>
                 <thead>
                     <tr>
@@ -71,8 +69,8 @@ export default function RecordList() {
                 </thead>
                 <tbody>{records !== undefined && recordList()}</tbody>
             </table>
-            <DropDown value={level} setValue={setLevel} field="level" />
-            <DropDown value={position} setValue={setPosition} field="position" />
+            <DropDownFilter field="level" value={level} setValue={setLevel} url={"http://localhost:5000/fieldlist?field=level&collection=employees"} />
+            <DropDownFilter field="position" value={position} setValue={setPosition} url={"http://localhost:5000/fieldlist?field=position&collection=employees"} />
         </div >
     );
 }

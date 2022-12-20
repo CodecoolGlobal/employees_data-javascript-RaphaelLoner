@@ -2,15 +2,15 @@
     padding: 4px;
 }
 
-.filterEmployees {
+.dropdownfilter {
     text-align: center;
 }
 
-.filterSelect {
+.dropdownselect {
     margin-left: 5px;
 }
 
-.sortTitle {
+.sorttitle {
     font-size: medium;
     display: block;
     text-align: center;
@@ -27,19 +27,20 @@
 }
 
 
-.pageHeader {
+.pageheader {
 
     text-align: center;
 }
 
-.selectPosition {
+.selectposition {
     margin-left: 50px;
     margin-top: 30px;
+
 }
 
 
 
-.buttonPosition {
+.buttonposition {
     margin-left: 120px;
     margin-top: 40px;
 

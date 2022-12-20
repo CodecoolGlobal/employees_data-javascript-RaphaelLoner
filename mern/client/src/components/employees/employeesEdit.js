@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router";
 import '../style.css'
-export default function Create() {
-
-
+export default function EmployeesEdit() {
     const [form, setForm] = useState({
         firstname: "",
         middlename: "",
@@ -12,42 +10,49 @@ export default function Create() {
         level: "",
 
     });
+    const params = useParams();
     const navigate = useNavigate();
 
-    // These methods will update the state properties.
+    useEffect(() => {
+
+        fetch(`http://localhost:5000/employees/${params.id}`)
+            .then(res => res.json())
+            .then(data => setForm(data))
+
+    }, [params.id]);
+
+    // Update Form
     function updateForm(value) {
         return setForm((prev) => {
             return { ...prev, ...value };
         });
     }
 
-    // This function will handle the submission.
     async function onSubmit(e) {
         e.preventDefault();
+        const editedPerson = {
+            firstname: form.firstname,
+            middlename: form.middlename,
+            lastname: form.lastname,
+            position: form.position,
+            level: form.level,
+        };
 
-        // When a post request is sent to the create url, we'll add a new record to the database.
-        const newPerson = { ...form };
-
-        await fetch("http://localhost:5000/record/add", {
+        // Update Database
+        await fetch(`http://localhost:5000/employees/update/${params.id}`, {
             method: "POST",
+            body: JSON.stringify(editedPerson),
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(newPerson),
-        })
-            .catch(error => {
-                window.alert(error);
-                return;
-            });
+        });
 
-        setForm({ firstname: "", middlename: "", lastname: "", position: "", level: "" });
-        navigate("/");
+        navigate("/employees");
     }
 
-    // This following section will display the form that takes the input from the user.
     return (
         <div>
-            <h3 className="pageHeader">Create New Record</h3>
+            <h3 className="pageheader">Update Employee</h3>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
                     <label htmlFor="firstname">Firstname</label>
@@ -83,7 +88,7 @@ export default function Create() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="position">Position</label>
+                    <label htmlFor="position">Position: </label>
                     <input
                         type="text"
                         className="form-control"
@@ -93,7 +98,7 @@ export default function Create() {
                         required
                     />
                 </div>
-                <div className="form-group selectPosition" required>
+                <div className="form-group selectposition">
                     <div className="form-check form-check-inline">
                         <input
                             className="form-check-input"
@@ -132,10 +137,10 @@ export default function Create() {
                     </div>
                 </div>
 
-                <div className="form-group buttonPosition">
+                <div className="form-group buttonposition">
                     <input
                         type="submit"
-                        value="Create person"
+                        value="Update Employee"
                         className="btn btn-primary"
                     />
                 </div>

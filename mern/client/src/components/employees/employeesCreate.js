@@ -1,75 +1,47 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+
 import '../style.css'
-export default function Edit() {
-    const [form, setForm] = useState({
-        firstname: "",
-        middlename: "",
-        lastname: "",
-        position: "",
-        level: "",
+export default function EmployeesCreate() {
 
-    });
-    const params = useParams();
+
     const navigate = useNavigate();
+    const [form, setForm] = useState({  firstname: "",  middlename: "",  lastname: "", position: "", level: "", });
 
-    useEffect(() => {
-        async function fetchData() {
-            const id = params.id.toString();
-            const response = await fetch(`http://localhost:5000/record/${params.id.toString()}`);
 
-            if (!response.ok) {
-                const message = `An error has occurred: ${response.statusText}`;
-                window.alert(message);
-                return;
-            }
 
-            const record = await response.json();
-            if (!record) {
-                window.alert(`Record with id ${id} not found`);
-                navigate("/");
-                return;
-            }
 
-            setForm(record);
-        }
-
-        fetchData();
-        return;
-    }, [params.id, navigate]);
-
-    // These methods will update the state properties.
+    
     function updateForm(value) {
         return setForm((prev) => {
             return { ...prev, ...value };
         });
     }
-
+    
     async function onSubmit(e) {
         e.preventDefault();
-        const editedPerson = {
-            firstname: form.firstname,
-            middlename: form.middlename,
-            lastname: form.lastname,
-            position: form.position,
-            level: form.level,
-        };
 
-        // This will send a post request to update the data in the database.
-        await fetch(`http://localhost:5000/update/${params.id}`, {
+        const newPerson = { ...form };
+
+        await fetch("http://localhost:5000/employees/add", {
             method: "POST",
-            body: JSON.stringify(editedPerson),
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
             },
-        });
+            body: JSON.stringify(newPerson),
+        })
+            .catch(error => {
+                window.alert(error);
+                return;
+            });
 
+        setForm({ firstname: "", middlename: "", lastname: "", position: "", level: "" });
         navigate("/");
     }
-    // This following section will display the form that takes input from the user to update the data.
+
     return (
         <div>
-            <h3 className="pageHeader">Update Record</h3>
+            <h3 className="pageHeader">Create New Employee</h3>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
                     <label htmlFor="firstname">Firstname</label>
@@ -105,7 +77,7 @@ export default function Edit() {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="position">Position: </label>
+                    <label htmlFor="position">Position</label>
                     <input
                         type="text"
                         className="form-control"
@@ -115,7 +87,7 @@ export default function Edit() {
                         required
                     />
                 </div>
-                <div className="form-group selectPosition">
+                <div className="form-group selectPosition" >
                     <div className="form-check form-check-inline">
                         <input
                             className="form-check-input"
@@ -152,12 +124,13 @@ export default function Edit() {
                         />
                         <label htmlFor="positionSenior" className="form-check-label">Senior</label>
                     </div>
+
                 </div>
 
                 <div className="form-group buttonPosition">
                     <input
                         type="submit"
-                        value="Update Record"
+                        value="Create person"
                         className="btn btn-primary"
                     />
                 </div>

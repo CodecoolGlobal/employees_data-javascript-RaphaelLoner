@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../style.css'
-const Equipment = (props) => (
+
+const Equipment = ({ equipment, deleteRecord }) => (
 
     <tr>
-        <td>{props.equipment.name}</td>
-        <td>{props.equipment.type}</td>
-        <td>{props.equipment.amount}</td>
+        <td>{equipment.name}</td>
+        <td>{equipment.type}</td>
+        <td>{equipment.amount}</td>
         <td>
-            <Link className="btn btn-link" to={`/equipment/edit/${props.equipment._id}`}>Edit</Link> |
-            <button className="btn btn-link" onClick={() => { props.deleteRecord(props.equipment._id); }}>Delete</button>
+            <Link className="btn btn-link" to={`/equipment/edit/${equipment._id}`}>Edit</Link> |
+            <button className="btn btn-link" onClick={() => { deleteRecord(equipment._id); }}>Delete</button>
         </td>
     </tr>
 )
@@ -19,18 +20,10 @@ export default function EquipmentList() {
     const [equipment, setEquipment] = useState([]);
 
     useEffect(() => {
-        async function getRecords() {
 
-            const response = await fetch(`http://localhost:5000/equipment`);
-            if (!response.ok) {
-                const message = `An error occurred: ${response.statusText}`;
-                window.alert(message);
-                return;
-            }
-            const records = await response.json();
-            setEquipment(records);
-        }
-        getRecords();
+        fetch(`http://localhost:5000/equipment`).then(res => res.json()).then((data => setEquipment(data)));
+
+
     }, [equipment.length]);
 
     async function deleteRecord(id) {
@@ -51,7 +44,7 @@ export default function EquipmentList() {
 
     return (
         <div>
-            <h3 className='pageHeader'>Equipment List</h3>
+            <h3 className='pageheader'>Equipment List</h3>
             <table className="table table-striped" style={{ marginTop: 20 }}>
                 <thead>
                     <tr>
@@ -66,3 +59,4 @@ export default function EquipmentList() {
         </div >
     );
 }
+

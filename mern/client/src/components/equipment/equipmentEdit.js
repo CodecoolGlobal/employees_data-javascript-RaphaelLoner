@@ -14,31 +14,14 @@ export default function EquipmentEdit() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        async function fetchData() {
-            const id = params.id.toString();
-            const response = await fetch(`http://localhost:5000/equipment/${params.id.toString()}`);
 
-            if (!response.ok) {
-                const message = `An error has occurred: ${response.statusText}`;
-                window.alert(message);
-                return;
-            }
+        fetch(`http://localhost:5000/equipment/${params.id}`)
+            .then(res => res.json())
+            .then(data => setForm(data));
 
-            const equipment = await response.json();
-            if (!equipment) {
-                window.alert(`Equipment with id ${id} not found`);
-                navigate("/equipment");
-                return;
-            }
-
-            setForm(equipment);
-        }
-
-        fetchData();
-        return;
     }, [params.id, navigate]);
 
-    // These methods will update the state properties.
+
     function updateForm(value) {
         return setForm((prev) => {
             return { ...prev, ...value };
@@ -53,7 +36,7 @@ export default function EquipmentEdit() {
             amount: form.amount,
         };
 
-        // This will send a post request to update the data in the database.
+        // Update Database
         await fetch(`http://localhost:5000/equipment/update/${params.id}`, {
             method: "POST",
             body: JSON.stringify(editedEquipment),
@@ -64,10 +47,10 @@ export default function EquipmentEdit() {
 
         navigate("/");
     }
-    // This following section will display the form that takes input from the user to update the data.
+
     return (
         <div>
-            <h3 className="pageHeader">Update Record</h3>
+            <h3 className="pageheader">Update Record</h3>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
                     <label htmlFor="name">Name</label>
@@ -102,11 +85,9 @@ export default function EquipmentEdit() {
                         required
                     />
                 </div>
-
-
                 <br />
 
-                <div className="form-group buttonPosition">
+                <div className="form-group buttonposition">
                     <input
                         type="submit"
                         value="Update Equipment"

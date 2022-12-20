@@ -3,14 +3,19 @@ import React from "react";
 // We use Route in order to define the different routes of our application
 import { Route, Routes } from "react-router-dom";
 
-// We import all the components we need in our app
+
 import Navbar from "./components/navbar";
-import RecordList from "./components/records/recordList";
-import Edit from "./components/records/edit";
-import Create from "./components/records/create";
+
+import EmployeesList from "./components/employees/employeesList";
+import EmployeesEdit from "./components/employees/employeesEdit";
+import EmployeesCreate from "./components/employees/employeesCreate";
+
 import EquipmentList from "./components/equipment/equipmentList";
-import EquipmentCreate from "./components/equipment/euipmentCreate";
+import EquipmentCreate from "./components/equipment/equipmentCreate";
 import EquipmentEdit from "./components/equipment/equipmentEdit";
+
+
+
 
 
 
@@ -20,12 +25,14 @@ const App = () => {
         <div>
             <Navbar />
             <Routes>
-                <Route exact path="/" element={<RecordList />} />
-                <Route path="/edit/:id" element={<Edit />} />
-                <Route path="/create" element={<Create />} />
+                <Route exact path="/employees" element={<EmployeesList />} />
+                <Route path="/employees/edit/:id" element={<EmployeesEdit />} />
+                <Route path="/employees/create" element={<EmployeesCreate />} />
+
                 <Route path="/equipment" element={<EquipmentList />} />
                 <Route path="/equipment/create" element={<EquipmentCreate />} />
                 <Route path="/equipment/edit/:id" element={<EquipmentEdit />} />
+
 
 
             </Routes>

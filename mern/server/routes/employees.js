@@ -1,16 +1,14 @@
 const express = require("express");
-const { getDb } = require("../db/conn");
-const recordRoutes = express.Router();
+const employeesRouter = express.Router();
 const dbo = require("../db/conn");
 // convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 
 
-
 //  get a list of all the records.
-recordRoutes.route("/record").get(checkParams, async function (req, res) {
-    let db_connect = dbo.getDb("employees");
-    db_connect.collection("records").find({})
+employeesRouter.get("/", checkParams, async function (req, res) {
+    let db_connect = dbo.getDb();
+    db_connect.collection("employees").find({})
         .toArray(function (err, result) {
             if (err) throw err;
             res.json(result);
@@ -18,12 +16,14 @@ recordRoutes.route("/record").get(checkParams, async function (req, res) {
 });
 
 async function checkParams(req, res, next) {
+
     if (req.query.sort === undefined && req.query.position === undefined && req.query.level === undefined) {
         next()
     }
+
     else if (req.query.position === "Default" && req.query.level === "Default") {
-        let db_connect = getDb();
-        await db_connect.collection("records").find({}).sort({ [req.query.sort]: 1 }).toArray((error, result) => {
+        let db_connect = dbo.getDb();
+        await db_connect.collection("employees").find({}).sort({ [req.query.sort]: 1 }).toArray((error, result) => {
             if (error) throw error;
             res.json(result)
         })
@@ -32,9 +32,9 @@ async function checkParams(req, res, next) {
         let obj;
         req.query.position !== "Default" && req.query.level !== "Default" ? obj = { position: req.query.position, level: req.query.level } :
             req.query.position === "Default" ? obj = { level: req.query.level } : obj = { position: req.query.position }
-        let db_connect = getDb();
+        let db_connect = dbo.getDb();
 
-        await db_connect.collection("records").find(obj).sort({ [req.query.sort]: 1 })
+        await db_connect.collection("employees").find(obj).sort({ [req.query.sort]: 1 })
             .toArray((error, result) => {
                 if (error) throw error;
                 res.json(result)
@@ -47,10 +47,10 @@ async function checkParams(req, res, next) {
 }
 
 //get a single record by id
-recordRoutes.route("/record/:id").get(function (req, res) {
+employeesRouter.get("/:id", function (req, res) {
     let db_connect = dbo.getDb();
     let myquery = { _id: ObjectId(req.params.id) };
-    db_connect.collection("records")
+    db_connect.collection("employees")
         .findOne(myquery, function (err, result) {
             if (err) throw err;
             res.json(result);
@@ -58,7 +58,7 @@ recordRoutes.route("/record/:id").get(function (req, res) {
 });
 
 // create a new record.
-recordRoutes.route("/record/add").post(logger, function (req, response) {
+employeesRouter.post("/add", function (req, response) {
     let db_connect = dbo.getDb();
     let myobj = {
         firstname: req.body.firstname,
@@ -69,17 +69,14 @@ recordRoutes.route("/record/add").post(logger, function (req, response) {
 
     };
 
-    db_connect.collection("records").insertOne(myobj, function (err, res) {
+    db_connect.collection("employees").insertOne(myobj, function (err, res) {
         if (err) throw err;
         response.json(res);
     });
-
-
-
 });
 
 // update a record by id.
-recordRoutes.route("/update/:id").post(function (req, response) {
+employeesRouter.post("/update/:id", function (req, response) {
     let db_connect = dbo.getDb();
     let myquery = { _id: ObjectId(req.params.id) };
     let newvalues = {
@@ -91,7 +88,7 @@ recordRoutes.route("/update/:id").post(function (req, response) {
             level: req.body.level,
         },
     };
-    db_connect.collection("records")
+    db_connect.collection("employees")
         .updateOne(myquery, newvalues, function (err, res) {
             if (err) throw err;
             console.log("1 document updated");
@@ -100,21 +97,16 @@ recordRoutes.route("/update/:id").post(function (req, response) {
 });
 
 // delete a record
-recordRoutes.route("/:id").delete((req, response) => {
+employeesRouter.delete("/delete/:id", (req, response) => {
     let db_connect = dbo.getDb();
     let myquery = { _id: ObjectId(req.params.id) };
-    db_connect.collection("records").deleteOne(myquery, function (err, obj) {
+    db_connect.collection("employees").deleteOne(myquery, function (err, obj) {
         if (err) throw err;
         console.log("1 document deleted");
         response.json(obj);
     });
 });
 
-function logger(req, res, next) {
-    const date = new Date();
-    console.log(date.toLocaleDateString() + " " + date.toLocaleTimeString());
-    next();
 
-}
 
-module.exports = recordRoutes;
+module.exports = employeesRouter;

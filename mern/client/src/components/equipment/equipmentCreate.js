@@ -2,26 +2,21 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import '../style.css'
 export default function EquipmentCreate() {
-    const [form, setForm] = useState({
-        name: "",
-        type: "",
-        amount: "",
 
-    });
+    const [form, setForm] = useState({ name: "", type: "", amount: "", });
     const navigate = useNavigate();
 
-    // These methods will update the state properties.
+
     function updateForm(value) {
         return setForm((prev) => {
             return { ...prev, ...value };
         });
     }
 
-    // This function will handle the submission.
+
     async function onSubmit(e) {
         e.preventDefault();
 
-        // When a post request is sent to the create url, we'll add a new record to the database.
         const newPerson = { ...form };
 
         await fetch("http://localhost:5000/equipment/add", {
@@ -39,10 +34,12 @@ export default function EquipmentCreate() {
         setForm({ name: "", type: "", amount: "" });
         navigate("/equipment");
     }
-    // This following section will display the form that takes the input from the user.
+
+
+
     return (
         <div>
-            <h3 className="pageHeader">Create New Record</h3>
+            <h3 className="pageheader">Create New Record</h3>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
                     <label htmlFor="name">Name</label>
@@ -73,18 +70,14 @@ export default function EquipmentCreate() {
                         className="form-control"
                         id="amount"
                         value={form.amount}
-                        min="1" buttonPosition
+                        min="1"
                         onChange={(e) => updateForm({ amount: e.target.value })}
                         required
                     />
                 </div>
 
-                <div className="form-group buttonPosition">
-                    <input
-                        type="submit"
-                        value="Create Equipment"
-                        className="btn btn-primary"
-                    />
+                <div className="form-group buttonposition">
+                    <input type="submit" value="Create Equipment" className="btn btn-primary" />
                 </div>
             </form>
         </div>
