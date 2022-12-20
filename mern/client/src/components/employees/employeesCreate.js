@@ -6,18 +6,18 @@ export default function EmployeesCreate() {
 
 
     const navigate = useNavigate();
-    const [form, setForm] = useState({  firstname: "",  middlename: "",  lastname: "", position: "", level: "", });
+    const [form, setForm] = useState({ firstname: "", middlename: "", lastname: "", position: "", level: "", });
 
 
 
 
-    
+
     function updateForm(value) {
         return setForm((prev) => {
             return { ...prev, ...value };
         });
     }
-    
+
     async function onSubmit(e) {
         e.preventDefault();
 
@@ -36,7 +36,7 @@ export default function EmployeesCreate() {
             });
 
         setForm({ firstname: "", middlename: "", lastname: "", position: "", level: "" });
-        navigate("/");
+        navigate("/employees");
     }
 
     return (

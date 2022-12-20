@@ -2,14 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import '../style.css'
 export default function EmployeesEdit() {
-    const [form, setForm] = useState({
-        firstname: "",
-        middlename: "",
-        lastname: "",
-        position: "",
-        level: "",
 
-    });
+    const [form, setForm] = useState({ middlename: "", lastname: "", position: "", level: "", });
     const params = useParams();
     const navigate = useNavigate();
 
@@ -21,7 +15,7 @@ export default function EmployeesEdit() {
 
     }, [params.id]);
 
-    // Update Form
+
     function updateForm(value) {
         return setForm((prev) => {
             return { ...prev, ...value };
@@ -30,18 +24,11 @@ export default function EmployeesEdit() {
 
     async function onSubmit(e) {
         e.preventDefault();
-        const editedPerson = {
-            firstname: form.firstname,
-            middlename: form.middlename,
-            lastname: form.lastname,
-            position: form.position,
-            level: form.level,
-        };
 
         // Update Database
         await fetch(`http://localhost:5000/employees/update/${params.id}`, {
             method: "POST",
-            body: JSON.stringify(editedPerson),
+            body: JSON.stringify(form),
             headers: {
                 'Content-Type': 'application/json'
             },

@@ -108,7 +108,6 @@ client.connect(function (err, db) {
 
         })
 
-
     }
 
 })

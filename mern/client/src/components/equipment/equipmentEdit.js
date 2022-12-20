@@ -4,14 +4,10 @@ import '../style.css'
 
 export default function EquipmentEdit() {
 
-    const [form, setForm] = useState({
-        name: "",
-        type: "",
-        amount: "",
-    });
-
     const params = useParams();
     const navigate = useNavigate();
+    const [form, setForm] = useState({ name: "", type: "", amount: "", });
+
 
     useEffect(() => {
 
@@ -30,22 +26,16 @@ export default function EquipmentEdit() {
 
     async function onSubmit(e) {
         e.preventDefault();
-        const editedEquipment = {
-            name: form.name,
-            type: form.type,
-            amount: form.amount,
-        };
 
-        // Update Database
         await fetch(`http://localhost:5000/equipment/update/${params.id}`, {
             method: "POST",
-            body: JSON.stringify(editedEquipment),
+            body: JSON.stringify(form),
             headers: {
                 'Content-Type': 'application/json'
             },
         });
 
-        navigate("/");
+        navigate("/equipment");
     }
 
     return (

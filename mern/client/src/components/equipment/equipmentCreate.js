@@ -39,7 +39,7 @@ export default function EquipmentCreate() {
 
     return (
         <div>
-            <h3 className="pageheader">Create New Record</h3>
+            <h3 className="pageheader">Create New Equipment</h3>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
                     <label htmlFor="name">Name</label>

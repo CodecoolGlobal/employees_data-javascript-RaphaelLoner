@@ -1,6 +1,6 @@
 import React from "react";
 
-// We use Route in order to define the different routes of our application
+
 import { Route, Routes } from "react-router-dom";
 
 
@@ -25,6 +25,7 @@ const App = () => {
         <div>
             <Navbar />
             <Routes>
+
                 <Route exact path="/employees" element={<EmployeesList />} />
                 <Route path="/employees/edit/:id" element={<EmployeesEdit />} />
                 <Route path="/employees/create" element={<EmployeesCreate />} />
@@ -32,8 +33,6 @@ const App = () => {
                 <Route path="/equipment" element={<EquipmentList />} />
                 <Route path="/equipment/create" element={<EquipmentCreate />} />
                 <Route path="/equipment/edit/:id" element={<EquipmentEdit />} />
-
-
 
             </Routes>
         </div>
